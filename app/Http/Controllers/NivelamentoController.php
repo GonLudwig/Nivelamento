@@ -26,7 +26,7 @@ class NivelamentoController extends Controller
             $atributos = $request->atributos;
             $exibicao = $this->nivelamento->selectRaw($atributos)->with('provas')->get();
         }else {
-            $exibicao = $this->nivelamento->with('provas')->get();
+            $exibicao = $this->nivelamento->get();
         }
 
         return response()->json($exibicao, 200);

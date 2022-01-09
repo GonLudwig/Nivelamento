@@ -15,7 +15,7 @@ class nivelamento extends Model
 
     public function rules(){
         return [
-            'nome' =>'requeried|unique:nivelamentos,nome,'.$this->id.'|max:50'
+            'nome' =>'required|unique:nivelamentos,nome,'.$this->id.'|max:50'
         ];
     }
 

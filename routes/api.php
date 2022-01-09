@@ -19,6 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('alternativa', 'App\Http\Controllers\AlternativaController');
+
 Route::apiResource('nivelamento', 'App\Http\Controllers\NivelamentoController');
+
 Route::apiResource('prova', 'App\Http\Controllers\ProvaController');
+
 Route::apiResource('questao', 'App\Http\Controllers\QuestaoController');

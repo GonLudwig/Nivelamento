@@ -18,9 +18,18 @@ class AlternativaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(StorealternativaRequest $request)
     {
-        //
+        $filtro = array();
+
+        if($request->has('atributos')){
+            $atributos = $request->atributos;
+            $filtro = $this->alternativa->selectRaw($atributos)->with('questao')->get();
+        }else{
+            $filtro = $this->alternativa->with('questao')->get();
+        }
+
+        return response()->json($filtro, 200);
     }
 
     /**
@@ -31,7 +40,10 @@ class AlternativaController extends Controller
      */
     public function store(StorealternativaRequest $request)
     {
-        //
+        $request->validate($this->alternativa->rules());
+        $alternativa = $this->alternativa->create($request->all());
+
+        return response()->json($alternativa, 201);
     }
 
     /**
@@ -42,7 +54,11 @@ class AlternativaController extends Controller
      */
     public function show($id)
     {
-        //
+        $alternativa = $this->alternativa->with('prova')->with('alternativas')->find($id);
+        if($alternativa === null){
+            return response()->json(['erro' => 'Nao exisite esta alternativa'], 404);
+        }
+        return response()->json($alternativa, 200);
     }
 
     /**
@@ -54,7 +70,28 @@ class AlternativaController extends Controller
      */
     public function update(UpdatealternativaRequest $request, $id)
     {
-        //
+        $alternativa = $this->alternativa->find($id);
+
+        if($alternativa === null){
+            return response()->json(['erro' => 'Nao exisite esta alternativa'], 404);
+        }
+
+        if($request->method() === 'PATCH'){
+
+            $regrasDinamicas = array();
+            foreach ($alternativa->rules() as $input => $regras) {
+                if(array_key_exists($input, $request->all())){
+                    $regrasDinamicas[$input] = $regras;
+                }
+            }
+            $request->validate($regrasDinamicas);
+        }else {
+            $request->validate($alternativa->rules());
+        }
+
+        $alternativa->fill($request->all());
+        $alternativa->save();
+        return response()->json($alternativa, 200);
     }
 
     /**
@@ -65,6 +102,12 @@ class AlternativaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $alternativa = $this->alternativa->find($id);
+        if($alternativa === null){
+            return response()->json(['erro' => 'Nao exisite esta alternativa'], 404);
+        }
+
+        $alternativa->delete();
+        return response()->json(['msg' => 'Alternativa foi deletada!'], 200);
     }
 }
