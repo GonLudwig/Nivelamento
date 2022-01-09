@@ -16,8 +16,7 @@ class CreateNivelamentosTable extends Migration
         Schema::create('nivelamentos', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 50);
-            $table->dateTime('data_criacao');
-            $table->dateTime('data_alteracao');
+            $table->timestamps();
         });
     }
 

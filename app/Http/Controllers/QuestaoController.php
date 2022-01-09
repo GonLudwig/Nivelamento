@@ -8,24 +8,29 @@ use App\Models\questao;
 
 class QuestaoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct(questao $questao)
     {
-        //
+        $this->questao = $questao;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of the resource.
      *
+     * @param  \App\Http\Requests\StorequestaoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index(StorequestaoRequest $request)
     {
-        //
+        $filtro = array();
+
+        if($request->has('atributos')){
+            $atributos = $request->atributos;
+            $filtro = $this->prova->selectRaw($atributos)->with('provaComponentes')->get();
+        }else{
+            $filtro = $this->prova->with('provaComponentes')->get();
+        }
+
+        return response()->json($filtro, 200);
     }
 
     /**
@@ -46,17 +51,6 @@ class QuestaoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(questao $questao)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\questao  $questao
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(questao $questao)
     {
         //
     }

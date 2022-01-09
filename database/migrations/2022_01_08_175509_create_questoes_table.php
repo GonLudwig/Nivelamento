@@ -15,11 +15,10 @@ class CreateQuestoesTable extends Migration
     {
         Schema::create('questoes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('prova_id')->nullable()->constrained('provas');
+            $table->foreignId('prova_id')->constrained('provas');
             $table->text('enunciado');
-            $table->unsignedBigInteger('resposta')->nullable();
-            $table->dateTime('data_criacao');
-            $table->dateTime('data_alteracao');
+            $table->unsignedBigInteger('resposta_id');
+            $table->timestamps();
         });
     }
 

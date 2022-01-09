@@ -8,22 +8,17 @@ use App\Models\alternativa;
 
 class AlternativaController extends Controller
 {
+    public function __construct(alternativa $alternativa)
+    {
+        $this->alternativa = $alternativa;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -42,21 +37,10 @@ class AlternativaController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\alternativa  $alternativa
+     * @param  \App\Models\alternativa  $alternativa = Integer
      * @return \Illuminate\Http\Response
      */
-    public function show(alternativa $alternativa)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\alternativa  $alternativa
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(alternativa $alternativa)
+    public function show($id)
     {
         //
     }
@@ -65,10 +49,10 @@ class AlternativaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdatealternativaRequest  $request
-     * @param  \App\Models\alternativa  $alternativa
+     * @param  \App\Models\alternativa  $alternativa = Integer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatealternativaRequest $request, alternativa $alternativa)
+    public function update(UpdatealternativaRequest $request, $id)
     {
         //
     }
@@ -76,10 +60,10 @@ class AlternativaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\alternativa  $alternativa
+     * @param  \App\Models\alternativa  $alternativa = Integer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(alternativa $alternativa)
+    public function destroy($id)
     {
         //
     }

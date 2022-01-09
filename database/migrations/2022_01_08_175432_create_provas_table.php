@@ -15,13 +15,13 @@ class CreateProvasTable extends Migration
     {
         Schema::create('provas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('nivelamento_id')->constrained('nivelamentos');
             $table->string('nome', 50);
-            $table->unsignedInteger('qtd_questao');
-            $table->unsignedInteger('media_apr');
+            $table->integer('qtd_questao');
+            $table->integer('media_apr');
             $table->string('mensagem_apr', 255);
             $table->string('mensagem_rep', 255);
-            $table->dateTime('data_criacao');
-            $table->dateTime('data_alteracao');
+            $table->timestamps();
         });
     }
 
