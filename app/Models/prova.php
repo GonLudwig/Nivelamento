@@ -29,7 +29,7 @@ class prova extends Model
         ];
     }
 
-    public function nivelamentos(){
+    public function nivelamento(){
         return $this->belongsTo('App\Models\nivelamento');
     }
 

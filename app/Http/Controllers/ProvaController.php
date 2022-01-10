@@ -21,13 +21,37 @@ class ProvaController extends Controller
      */
     public function index(StoreprovaRequest $request)
     {
-        $modelo = array();
+        $modelo = $this->prova;
+        $atributos = '';
+
+        if($request->has('atributos_nivelamento')){
+            $atributosNivelamento = $request->atributos_nivelamento;
+            $modelo = $modelo->with('nivelamento:id,'.$atributosNivelamento);
+            $atributos = 'nivelamento_id,';
+        }else{
+            $modelo = $modelo->with('nivelamento');
+        }
+
+        if($request->has('atributos_questoes')){
+            $atributosQuestoes = $request->atributos_questoes;
+            $modelo = $modelo->with('questoes:id',$atributosQuestoes);
+        }else{
+            $modelo = $modelo->with('questoes');
+        }
+
+        if($request->has('filtros')){
+            $filtros = explode(';', $request->filtros);
+            foreach ($filtros as $key => $condicao) {
+                $filtro = explode(':', $condicao);
+                $modelo = $modelo->where($filtro[0], $filtro[1], $filtro[2]);
+            }
+        }
 
         if($request->has('atributos')){
-            $atributos = $request->atributos;
-            $modelo = $this->prova->selectRaw($atributos)->with('nivelamento')->with('questoes')->get();
+            $atributos .= $request->atributos;
+            $modelo = $modelo->selectRaw($atributos)->get();
         }else{
-            $modelo = $this->prova->with('nivelamento')->with('questoes')->get();
+            $modelo = $modelo->selectRaw($atributos.'id, nome')->get();
         }
 
         return response()->json($modelo, 200);
