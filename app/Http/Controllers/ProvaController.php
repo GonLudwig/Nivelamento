@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreprovaRequest;
 use App\Http\Requests\UpdateprovaRequest;
-use App\Models\prova;
+use App\Models\Prova;
+use App\Repositories\ProvaRepository;
 
 class ProvaController extends Controller
 {
@@ -21,40 +22,34 @@ class ProvaController extends Controller
      */
     public function index(StoreprovaRequest $request)
     {
-        $modelo = $this->prova;
+        $provaRepository = new ProvaRepository($this->prova);
         $atributos = '';
 
         if($request->has('atributos_nivelamento')){
-            $atributosNivelamento = $request->atributos_nivelamento;
-            $modelo = $modelo->with('nivelamento:id,'.$atributosNivelamento);
+            $atributosNivelamento = 'nivelamento:id,'.$request->atributos_nivelamento;
+            $provaRepository->selectAtributosRelacionados($atributosNivelamento);
             $atributos = 'nivelamento_id,';
         }else{
-            $modelo = $modelo->with('nivelamento');
+            $provaRepository->selectAtributosRelacionados('nivelamento');
         }
 
-        if($request->has('atributos_questoes')){
-            $atributosQuestoes = $request->atributos_questoes;
-            $modelo = $modelo->with('questoes:id',$atributosQuestoes);
+        if($request->has('atributos_questao')){
+            $atributosQuestoes = 'questoes:id,'.$request->atributos_questoes;
+            $provaRepository->selectAtributosRelacionados($atributosQuestoes);
         }else{
-            $modelo = $modelo->with('questoes');
+            $provaRepository->selectAtributosRelacionados('questoes');
         }
 
         if($request->has('filtros')){
-            $filtros = explode(';', $request->filtros);
-            foreach ($filtros as $key => $condicao) {
-                $filtro = explode(':', $condicao);
-                $modelo = $modelo->where($filtro[0], $filtro[1], $filtro[2]);
-            }
+            $provaRepository->filtros($request->filtros);
         }
 
         if($request->has('atributos')){
             $atributos .= $request->atributos;
-            $modelo = $modelo->selectRaw($atributos)->get();
-        }else{
-            $modelo = $modelo->selectRaw($atributos.'id, nome')->get();
+            $provaRepository->selectAtributos($atributos);
         }
 
-        return response()->json($modelo, 200);
+        return response()->json($provaRepository->getResultado(), 200);
     }
 
     /**
@@ -66,7 +61,14 @@ class ProvaController extends Controller
     public function store(StoreprovaRequest $request)
     {
         $request->validate($this->prova->rules());
-        $prova = $this->prova->create($request->all());
+        $prova = $this->prova->create([
+            'nivelamento_id' => $request->nivelamento_id,
+            'nome' => $request->nome,
+            'qtd_questao' => $request->qtd_questao,
+            'media_apr' => $request->media_apr,
+            'mensagem_apr' => $request->mensagem_apr,
+            'mensagem_rep' => $request->mensagem_rep
+        ]);
 
         return response()->json($prova, 201);
     }
@@ -97,7 +99,7 @@ class ProvaController extends Controller
     {
         $prova = $this->prova->find($id);
 
-        if($prova === null){
+        if(!$prova){
             return response()->json(['erro' => 'Nao exisite esta prova'], 404);
         }
 
@@ -128,7 +130,7 @@ class ProvaController extends Controller
     public function destroy($id)
     {
         $prova = $this->prova->find($id);
-        if($prova === null){
+        if(!$prova){
             return response()->json(['erro' => 'Nao exisite este prova'], 404);
         }
 

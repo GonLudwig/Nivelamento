@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorenivelamentoRequest;
 use App\Http\Requests\UpdatenivelamentoRequest;
-use App\Models\nivelamento;
+use App\Models\Nivelamento;
+use App\Repositories\NivelamentoRepository;
 
 class NivelamentoController extends Controller
 {
@@ -12,6 +13,7 @@ class NivelamentoController extends Controller
     {
         $this->nivelamento = $nivelamento;   
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -20,16 +22,26 @@ class NivelamentoController extends Controller
      */
     public function index(StorenivelamentoRequest $request)
     {
-        $exibicao = array();
+        $nivelamentoRepository = new NivelamentoRepository($this->nivelamento);
+        $atributos = '';
 
-        if($request->has('atributos')){
-            $atributos = $request->atributos;
-            $exibicao = $this->nivelamento->selectRaw($atributos)->with('provas')->get();
-        }else {
-            $exibicao = $this->nivelamento->get();
+        if($request->has('atributos_prova')){
+            $atributosProva = 'provas:id,'.$request->atributos_prova;
+            $nivelamentoRepository->selectAtributosRelacionados($atributosProva);
+        }else{
+            $nivelamentoRepository->selectAtributosRelacionados('provas');
         }
 
-        return response()->json($exibicao, 200);
+        if($request->has('filtros')){
+            $nivelamentoRepository->filtros($request->filtros);
+        }
+
+        if($request->has('atributos')){
+            $atributos .= $request->atributos;
+            $nivelamentoRepository->selectAtributos($atributos);
+        }
+
+        return response()->json($nivelamentoRepository->getResultado(), 200);
     }
 
     /**
@@ -41,7 +53,9 @@ class NivelamentoController extends Controller
     public function store(StorenivelamentoRequest $request)
     {
         $request->validate($this->nivelamento->rules());
-        $nivelamento = $this->nivelamento->create($request->all());
+        $nivelamento = $this->nivelamento->create([
+            'nome' => $request->nome
+        ]);
 
         return response()->json($nivelamento, 201);
     }

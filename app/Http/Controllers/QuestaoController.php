@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorequestaoRequest;
 use App\Http\Requests\UpdatequestaoRequest;
-use App\Models\questao;
+use App\Models\Questao;
+use App\Repositories\QuestaoRepository;
 
 class QuestaoController extends Controller
 {
@@ -21,16 +22,34 @@ class QuestaoController extends Controller
      */
     public function index(StorequestaoRequest $request)
     {
-        $filtro = array();
+        $questaoRepository = new QuestaoRepository($this->questao);
+        $atributos = '';
 
-        if($request->has('atributos')){
-            $atributos = $request->atributos;
-            $filtro = $this->questao->selectRaw($atributos)->with('prova')->with('alternativas')->get();
+        if($request->has('atributos_prova')){
+            $atributosQuestao = 'prova:id,'.$request->atributos_prova;
+            $questaoRepository->selectAtributosRelacionados($atributosQuestao);
+            $atributos = 'prova_id,';
         }else{
-            $filtro = $this->questao->with('prova')->with('alternativas')->get();
+            $questaoRepository->selectAtributosRelacionados('prova');
         }
 
-        return response()->json($filtro, 200);
+        if($request->has('atributos_alternativas')){
+            $atributosAlternativas = 'alternativas:id,'.$request->atributos_alternativas;
+            $questaoRepository->selectAtributosRelacionados($atributosAlternativas);
+        }else{
+            $questaoRepository->selectAtributosRelacionados('alternativas');
+        }
+
+        if($request->has('filtros')){
+            $questaoRepository->filtros($request->filtros);
+        }
+
+        if($request->has('atributos')){
+            $atributos .= $request->atributos;
+            $questaoRepository->selectAtributos($atributos);
+        }
+
+        return response()->json($questaoRepository->getResultado(), 200);
     }
 
     /**
@@ -42,7 +61,11 @@ class QuestaoController extends Controller
     public function store(StorequestaoRequest $request)
     {
         $request->validate($this->questao->rules());
-        $questao = $this->questao->create($request->all());
+        $questao = $this->questao->create([
+            'prova_id' => $request->prova_id,
+            'enunciado' => $request->enunciado,
+            'resposta_id' => $request->resposta_id
+        ]);
 
         return response()->json($questao, 201);
     }

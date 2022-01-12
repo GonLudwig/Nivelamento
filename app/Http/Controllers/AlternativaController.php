@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorealternativaRequest;
 use App\Http\Requests\UpdatealternativaRequest;
-use App\Models\alternativa;
+use App\Models\Alternativa;
+use App\Repositories\AlternativaRepository;
 
 class AlternativaController extends Controller
 {
@@ -20,16 +21,27 @@ class AlternativaController extends Controller
      */
     public function index(StorealternativaRequest $request)
     {
-        $filtro = array();
+        $alternativaRepository = new AlternativaRepository($this->alternativa);
+        $atributos = '';
 
-        if($request->has('atributos')){
-            $atributos = $request->atributos;
-            $filtro = $this->alternativa->selectRaw($atributos)->with('questao')->get();
+        if($request->has('atributos_questao')){
+            $atributosQuestoes = 'questao:id,'.$request->atributos_questao;
+            $alternativaRepository->selectAtributosRelacionados($atributosQuestoes);
+            $atributos = 'questao_id,';
         }else{
-            $filtro = $this->alternativa->with('questao')->get();
+            $alternativaRepository->selectAtributosRelacionados('questao');
         }
 
-        return response()->json($filtro, 200);
+        if($request->has('filtros')){
+            $alternativaRepository->filtros($request->filtros);
+        }
+
+        if($request->has('atributos')){
+            $atributos .= $request->atributos;
+            $alternativaRepository->selectAtributos($atributos);
+        }
+
+        return response()->json($alternativaRepository->getResultado(), 200);
     }
 
     /**
@@ -41,7 +53,10 @@ class AlternativaController extends Controller
     public function store(StorealternativaRequest $request)
     {
         $request->validate($this->alternativa->rules());
-        $alternativa = $this->alternativa->create($request->all());
+        $alternativa = $this->alternativa->create([
+            'questao_id' => $request->questao_id,
+            'alternativa' => $request->alternativa
+        ]);
 
         return response()->json($alternativa, 201);
     }
