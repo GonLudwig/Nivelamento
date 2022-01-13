@@ -26,7 +26,7 @@ class NivelamentoController extends Controller
         $atributos = '';
 
         if($request->has('atributos_prova')){
-            $atributosProva = 'provas:id,'.$request->atributos_prova;
+            $atributosProva = 'provas:id,nivelamento_id,'.$request->atributos_prova;
             $nivelamentoRepository->selectAtributosRelacionados($atributosProva);
         }else{
             $nivelamentoRepository->selectAtributosRelacionados('provas');
@@ -118,7 +118,7 @@ class NivelamentoController extends Controller
     {
         $nivelamento = $this->nivelamento->find($id);
         if($nivelamento === null){
-            return response()->json(['erro' => 'Nao exisite este nive$nivelamento'], 404);
+            return response()->json(['erro' => 'Nao exisite este nivelamento'], 404);
         }
 
         $nivelamento->delete();

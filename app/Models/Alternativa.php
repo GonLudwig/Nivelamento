@@ -22,6 +22,6 @@ class Alternativa extends Model
     }
 
     public function questao(){
-        return $this->belongsTo('App\Models\questao');
+        return $this->belongsTo('App\Models\Questao');
     }
 }

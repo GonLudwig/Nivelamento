@@ -25,10 +25,10 @@ class Questao extends Model
     }
 
     public function prova(){
-        return $this->belongsTo('App\Models\prova');
+        return $this->belongsTo('App\Models\Prova');
     }
 
     public function alternativas(){
-        return $this->hasMany('App\Models\alternativa');
+        return $this->hasMany('App\Models\Alternativa');
     }
 }

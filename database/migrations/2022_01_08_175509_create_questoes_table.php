@@ -17,7 +17,7 @@ class CreateQuestoesTable extends Migration
             $table->id();
             $table->foreignId('prova_id')->constrained('provas');
             $table->text('enunciado');
-            $table->unsignedBigInteger('resposta_id');
+            $table->unsignedBigInteger('resposta_id')->nullable();
             $table->timestamps();
         });
     }

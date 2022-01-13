@@ -30,11 +30,11 @@ class Prova extends Model
     }
 
     public function nivelamento(){
-        return $this->belongsTo('App\Models\nivelamento');
+        return $this->belongsTo('App\Models\Nivelamento');
     }
 
     public function questoes(){
-        return $this->hasMany('App\Models\questao');
+        return $this->hasMany('App\Models\Questao');
     }
 
 }
