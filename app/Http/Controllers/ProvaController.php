@@ -13,7 +13,7 @@ class ProvaController extends Controller
     {
         $this->prova = $prova;
     }
-
+    
     /**
      * Display a listing of the resource.
      *
