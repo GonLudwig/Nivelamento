@@ -15,7 +15,6 @@ class CreateAlternativasTable extends Migration
     {
         Schema::create('alternativas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('questao_id')->constrained('questoes');
             $table->string('alternativa', 500);
             $table->timestamps();
         });

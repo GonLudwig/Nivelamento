@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestoesTable extends Migration
+class CreateGrupoAlternativasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateQuestoesTable extends Migration
      */
     public function up()
     {
-        Schema::create('questoes', function (Blueprint $table) {
+        Schema::create('grupo_alternativas', function (Blueprint $table) {
             $table->id();
-            $table->text('enunciado');
-            $table->unsignedBigInteger('resposta_id')->nullable();
+            $table->foreignId('questao_id')->constrained('questoes');
+            $table->foreignId('alternativa_id')->constrained('alternativas');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateQuestoesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questoes');
+        Schema::dropIfExists('grupo_alternativas');
     }
 }

@@ -15,7 +15,6 @@ class CreateProvasTable extends Migration
     {
         Schema::create('provas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nivelamento_id')->constrained('nivelamentos');
             $table->string('nome', 50);
             $table->integer('qtd_questao');
             $table->integer('media_apr');
