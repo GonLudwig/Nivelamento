@@ -10,7 +10,6 @@ class Prova extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nivelamento_id',
         'nome',
         'qtd_questao',
         'media_apr',
@@ -20,7 +19,6 @@ class Prova extends Model
 
     public function rules(){
         return [
-            'nivelamento_id' => 'required|exists:nivelamentos,id',
             'nome' =>'required|unique:provas,nome,'.$this->id.'|max:50',
             'qtd_questao' => 'required',
             'media_apr' => 'required',
@@ -29,12 +27,8 @@ class Prova extends Model
         ];
     }
 
-    public function nivelamento(){
-        return $this->belongsTo('App\Models\Nivelamento');
-    }
-
-    public function questoes(){
-        return $this->hasMany('App\Models\Questao');
+    public function nivelamentos(){
+        return $this->hasMany('App\Models\GrupoProva');
     }
 
 }

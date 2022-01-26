@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQuestoesTable extends Migration
+class CreateNiveisEnsinosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateQuestoesTable extends Migration
      */
     public function up()
     {
-        Schema::create('questoes', function (Blueprint $table) {
+        Schema::create('niveis_ensinos', function (Blueprint $table) {
             $table->id();
-            $table->text('enunciado');
-            $table->foreignId('componente_id');
-            $table->boolean('situação');
-            $table->string('usuario_criador');
-            $table->string('usuario_atualização');
+            $table->string('nome');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateQuestoesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questoes');
+        Schema::dropIfExists('niveis_ensinos');
     }
 }

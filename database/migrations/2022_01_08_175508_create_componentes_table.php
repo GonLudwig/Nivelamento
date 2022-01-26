@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGrupoAlternativasTable extends Migration
+class CreateComponentesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateGrupoAlternativasTable extends Migration
      */
     public function up()
     {
-        Schema::create('grupo_alternativas', function (Blueprint $table) {
+        Schema::create('componentes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('questao_id')->constrained('questoes');
-            $table->foreignId('alternativa_id')->constrained('alternativas');
+            $table->string('nome');
+            $table->boolean('situação');
+            $table->foreignId('nivel_id');
+            $table->boolean('situação');
+            $table->string('usuario_criador');
+            $table->string('usuario_atualização');
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ class CreateGrupoAlternativasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grupo_alternativas');
+        Schema::dropIfExists('componentes');
     }
 }
