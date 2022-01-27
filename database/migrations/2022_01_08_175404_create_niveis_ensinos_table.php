@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGrupoProvasTable extends Migration
+class CreateNiveisEnsinosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateGrupoProvasTable extends Migration
      */
     public function up()
     {
-        Schema::create('grupo_provas', function (Blueprint $table) {
+        Schema::create('niveis_ensinos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nivelamento_id')->constrained('nivelamentos');
-            $table->foreignId('prova_id')->constrained('provas');
+            $table->string('nome', 255);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateGrupoProvasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grupo_provas');
+        Schema::dropIfExists('niveis_ensinos');
     }
 }

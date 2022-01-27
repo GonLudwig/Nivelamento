@@ -19,7 +19,7 @@ class Nivelamento extends Model
         ];
     }
 
-    public function provas(){
-        return $this->hasMany('App\Models\Prova');
+    public function nivelamentos_provas(){
+        return $this->hasMany('App\Models\NivelamentosProva');
     }
 }

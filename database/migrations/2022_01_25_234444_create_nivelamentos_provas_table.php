@@ -15,8 +15,10 @@ class CreateNivelamentosProvasTable extends Migration
     {
         Schema::create('nivelamentos_provas', function (Blueprint $table) {
             $table->id();
-            $table->string('usuario_criacao');
-            $table->string('usuario_alteracao');
+            $table->foreignId('nivelamento_id')->constrained('nivelamentos');
+            $table->foreignId('prova_id')->constrained('provas');
+            $table->string('usuario_criador', 255);
+            $table->string('usuario_atualização', 255);
             $table->timestamps();
         });
     }

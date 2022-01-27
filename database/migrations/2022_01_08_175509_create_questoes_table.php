@@ -16,10 +16,10 @@ class CreateQuestoesTable extends Migration
         Schema::create('questoes', function (Blueprint $table) {
             $table->id();
             $table->text('enunciado');
-            $table->foreignId('componente_id');
-            $table->boolean('situação');
-            $table->string('usuario_criador');
-            $table->string('usuario_atualização');
+            $table->foreignId('componente_id')->constrained('componentes');
+            $table->enum('situação', ['Ativo', 'Inativo']);
+            $table->string('usuario_criador', 255);
+            $table->string('usuario_atualização', 255);
             $table->timestamps();
         });
     }

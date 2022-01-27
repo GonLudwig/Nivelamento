@@ -16,10 +16,11 @@ class CreateProvasTable extends Migration
         Schema::create('provas', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 50);
-            $table->integer('qtd_questao');
             $table->integer('media_apr');
             $table->string('mensagem_apr', 255);
             $table->string('mensagem_rep', 255);
+            $table->string('usuario_criador', 255);
+            $table->string('usuario_atualização', 255);
             $table->timestamps();
         });
     }
