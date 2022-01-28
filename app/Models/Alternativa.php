@@ -10,16 +10,24 @@ class Alternativa extends Model
     use HasFactory;
 
     protected $fillable = [
-        'alternativa'
+        'nome',
+        'questao_id',
+        'alternativa_correto',
+        'usuario_criador',
+        'usuario_atualização'
     ];
     
     public function rules(){
         return [
-            'alternativa' => 'required'
+            'nome' => 'required|max:500',
+            'questao_id' => 'required|exists:questoes,id',
+            'alternativa_correto' => 'required',
+            'usuario_criador' => 'required|max:255',
+            'usuario_atualização' => 'required|max:255'
         ];
     }
 
-    public function questoes(){
-        return $this->hasMany('App\Models\GrupoQuestao');
+    public function questao(){
+        return $this->belongsTo('App\Models\Questao');
     }
 }

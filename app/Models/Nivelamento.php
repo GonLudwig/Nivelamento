@@ -10,12 +10,14 @@ class Nivelamento extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome'
+        'nome',
+        'situacao'
     ];
 
     public function rules(){
         return [
-            'nome' =>'required|unique:nivelamentos,nome,'.$this->id.'|max:50'
+            'nome' =>'required|unique:nivelamentos,nome,'.$this->id.'|max:50',
+            'situacao' => 'required'
         ];
     }
 

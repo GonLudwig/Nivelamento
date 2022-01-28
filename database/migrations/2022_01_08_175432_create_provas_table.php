@@ -17,6 +17,7 @@ class CreateProvasTable extends Migration
             $table->id();
             $table->string('nome', 50);
             $table->integer('media_apr');
+            $table->enum('situacao', ['Ativo', 'Inativo']);
             $table->string('mensagem_apr', 255);
             $table->string('mensagem_rep', 255);
             $table->string('usuario_criador', 255);

@@ -11,10 +11,12 @@ class Prova extends Model
 
     protected $fillable = [
         'nome',
-        'qtd_questao',
         'media_apr',
+        'situacao',
         'mensagem_apr',
-        'mensagem_rep'
+        'mensagem_rep',
+        'usuario_criador',
+        'usuario_atualização'
     ];
 
     public function rules(){
@@ -22,13 +24,19 @@ class Prova extends Model
             'nome' =>'required|unique:provas,nome,'.$this->id.'|max:50',
             'qtd_questao' => 'required',
             'media_apr' => 'required',
+            'situacao' => 'required',
             'mensagem_apr' => 'required|max:255',
-            'mensagem_rep' => 'required|max:255'
+            'mensagem_rep' => 'required|max:255',
+            'usuario_criador' => 'required|max:255',
+            'usuario_atualização' => 'required|max:255'
         ];
     }
 
-    public function nivelamentos(){
-        return $this->hasMany('App\Models\GrupoProva');
+    public function nivelamentos_provas(){
+        return $this->hasMany('App\Models\NivelamentosProva');
     }
 
+    public function provas_componentes(){
+        return $this->hasMany('App\Models\ProvasComponente');
+    }
 }

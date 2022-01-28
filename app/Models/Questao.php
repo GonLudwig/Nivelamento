@@ -11,21 +11,25 @@ class Questao extends Model
     protected $table = 'questoes';
 
     protected $fillable = [
-        'prova_id',
         'enunciado',
-        'resposta_id'
+        'componente_id',
+        'situacao',
+        'usuario_criador',
+        'usuario_atualização'
     ];
 
     public function rules(){
         return [
-            'prova_id' => 'required|exists:provas,id',
             'enunciado' => 'required',
-            'resposta_id' => 'exists:alternativas,id'
+            'componente_id' => 'required|exists:componentes,id',
+            'situacao' => 'required',
+            'usuario_criador' => 'required|max:255',
+            'usuario_atualização' => 'required|max:255'
         ];
     }
 
-    public function prova(){
-        return $this->belongsTo('App\Models\Prova');
+    public function componente(){
+        return $this->belongsTo('App\Models\Componente');
     }
 
     public function alternativas(){

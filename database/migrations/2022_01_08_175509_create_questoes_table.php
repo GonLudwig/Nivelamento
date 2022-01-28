@@ -17,7 +17,7 @@ class CreateQuestoesTable extends Migration
             $table->id();
             $table->text('enunciado');
             $table->foreignId('componente_id')->constrained('componentes');
-            $table->enum('situação', ['Ativo', 'Inativo']);
+            $table->enum('situacao', ['Ativo', 'Inativo']);
             $table->string('usuario_criador', 255);
             $table->string('usuario_atualização', 255);
             $table->timestamps();

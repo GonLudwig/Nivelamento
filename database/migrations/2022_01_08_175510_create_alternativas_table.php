@@ -15,11 +15,11 @@ class CreateAlternativasTable extends Migration
     {
         Schema::create('alternativas', function (Blueprint $table) {
             $table->id();
-            $table->string('alternativa', 500);
+            $table->string('nome', 500);
             $table->foreignId('questao_id')->constrained('questoes');
             $table->enum('alternativa_correto', ['Sim', 'Não']);
-            $table->string('usuario_criador');
-            $table->string('usuario_atualização');
+            $table->string('usuario_criador', 255);
+            $table->string('usuario_atualização', 255);
             $table->timestamps();
         });
     }
