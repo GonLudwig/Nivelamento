@@ -16,19 +16,18 @@ class Prova extends Model
         'mensagem_apr',
         'mensagem_rep',
         'usuario_criador',
-        'usuario_atualização'
+        'usuario_atualizacao'
     ];
 
     public function rules(){
         return [
             'nome' =>'required|unique:provas,nome,'.$this->id.'|max:50',
-            'qtd_questao' => 'required',
             'media_apr' => 'required',
             'situacao' => 'required',
             'mensagem_apr' => 'required|max:255',
             'mensagem_rep' => 'required|max:255',
             'usuario_criador' => 'required|max:255',
-            'usuario_atualização' => 'required|max:255'
+            'usuario_atualizacao' => 'required|max:255'
         ];
     }
 

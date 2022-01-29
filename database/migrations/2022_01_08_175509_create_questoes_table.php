@@ -19,7 +19,7 @@ class CreateQuestoesTable extends Migration
             $table->foreignId('componente_id')->constrained('componentes');
             $table->enum('situacao', ['Ativo', 'Inativo']);
             $table->string('usuario_criador', 255);
-            $table->string('usuario_atualização', 255);
+            $table->string('usuario_atualizacao', 255);
             $table->timestamps();
         });
     }

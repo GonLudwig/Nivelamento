@@ -18,16 +18,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('alternativa', 'App\Http\Controllers\AlternativaController');
+Route::apiResource('nivel_ensino', 'App\Http\Controllers\NivelEnsinoController');
 
 Route::apiResource('nivelamento', 'App\Http\Controllers\NivelamentoController');
 
 Route::apiResource('prova', 'App\Http\Controllers\ProvaController');
 
+Route::apiResource('componente', 'App\Http\Controllers\ComponenteController');
+
 Route::apiResource('questao', 'App\Http\Controllers\QuestaoController');
 
-Route::apiResource('grupo_prova', 'App\Http\Controllers\GrupoProvaController');
+Route::apiResource('nivelamentos_provas', 'App\Http\Controllers\NivelamentosProvaController');
 
-Route::apiResource('grupo_questao', 'App\Http\Controllers\GrupoQuestaoController');
-
-Route::apiResource('grupo_alternativa', 'App\Http\Controllers\GrupoAlternativaController');
+Route::apiResource('provas_componentes', 'App\Http\Controllers\ProvasComponenteController');

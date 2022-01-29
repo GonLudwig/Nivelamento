@@ -11,13 +11,17 @@ class Nivelamento extends Model
 
     protected $fillable = [
         'nome',
-        'situacao'
+        'situacao',
+        'usuario_criador',
+        'usuario_atualizacao'
     ];
 
     public function rules(){
         return [
             'nome' =>'required|unique:nivelamentos,nome,'.$this->id.'|max:50',
-            'situacao' => 'required'
+            'situacao' => 'required',
+            'usuario_criador' => 'required|max:255',
+            'usuario_atualizacao' => 'required|max:255'
         ];
     }
 

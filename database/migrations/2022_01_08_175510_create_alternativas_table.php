@@ -19,7 +19,7 @@ class CreateAlternativasTable extends Migration
             $table->foreignId('questao_id')->constrained('questoes');
             $table->enum('alternativa_correto', ['Sim', 'Não']);
             $table->string('usuario_criador', 255);
-            $table->string('usuario_atualização', 255);
+            $table->string('usuario_atualizacao', 255);
             $table->timestamps();
         });
     }

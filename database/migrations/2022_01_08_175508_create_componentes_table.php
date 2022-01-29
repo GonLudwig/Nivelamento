@@ -19,7 +19,7 @@ class CreateComponentesTable extends Migration
             $table->foreignId('nivel_id')->constrained('niveis_ensinos');
             $table->enum('situacao', ['Ativo', 'Inativo']);
             $table->string('usuario_criador', 255);
-            $table->string('usuario_atualização', 255);
+            $table->string('usuario_atualizacao', 255);
             $table->timestamps();
         });
     }

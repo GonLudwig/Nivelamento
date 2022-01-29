@@ -18,7 +18,7 @@ class CreateNivelamentosTable extends Migration
             $table->string('nome', 50);
             $table->enum('situacao', ['Ativo', 'Inativo']);
             $table->string('usuario_criador', 255);
-            $table->string('usuario_atualização', 255);
+            $table->string('usuario_atualizacao', 255);
             $table->timestamps();
         });
     }

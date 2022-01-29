@@ -21,7 +21,7 @@ class CreateProvasTable extends Migration
             $table->string('mensagem_apr', 255);
             $table->string('mensagem_rep', 255);
             $table->string('usuario_criador', 255);
-            $table->string('usuario_atualização', 255);
+            $table->string('usuario_atualizacao', 255);
             $table->timestamps();
         });
     }

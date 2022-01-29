@@ -25,12 +25,12 @@ class NivelamentoController extends Controller
         $nivelamentoRepository = new NivelamentoRepository($this->nivelamento);
         $atributos = '';
 
-        if($request->has('atributos_prova')){
-            $atributosProva = 'provas:id,nivelamento_id,'.$request->atributos_prova;
-            $nivelamentoRepository->selectAtributosRelacionados($atributosProva);
-        }else{
-            $nivelamentoRepository->selectAtributosRelacionados('provas');
-        }
+        // if($request->has('atributos_nivelamentos_provas')){
+        //     $atributosProva = 'nivelamentos_provas:id,nivelamento_id,'.$request->atributos_prova;
+        //     $nivelamentoRepository->selectAtributosRelacionados($atributosProva);
+        // }else{
+        //     $nivelamentoRepository->selectAtributosRelacionados('nivelamentos_provas');
+        // }
 
         if($request->has('filtros')){
             $nivelamentoRepository->filtros($request->filtros);
@@ -54,7 +54,10 @@ class NivelamentoController extends Controller
     {
         $request->validate($this->nivelamento->rules());
         $nivelamento = $this->nivelamento->create([
-            'nome' => $request->nome
+            'nome' => $request->nome,
+            'situacao' => $request->situacao,
+            'usuario_criador' => $request->usuario_criador,
+            'usuario_atualizacao' =>$request->usuario_atualizacao
         ]);
 
         return response()->json($nivelamento, 201);
@@ -68,7 +71,7 @@ class NivelamentoController extends Controller
      */
     public function show($id)
     {
-        $nivelamento = $this->prova->with('provas')->find($id);
+        $nivelamento = $this->nivelamento->with('nivelamentos_provas')->find($id);
         if ($nivelamento === null) {
             return response()->json(['erro' => 'Nao existe este nivelamento'], 404);
         }

@@ -23,21 +23,19 @@ class ProvaController extends Controller
     public function index(StoreprovaRequest $request)
     {
         $provaRepository = new ProvaRepository($this->prova);
-        $atributos = '';
 
-        if($request->has('atributos_nivelamento')){
-            $atributosNivelamento = 'nivelamento:id,'.$request->atributos_nivelamento;
+        if($request->has('atributos_nivelamentos_provas')){
+            $atributosNivelamento = 'nivelamentos_provas:id,'.$request->atributos_nivelamentos_provas;
             $provaRepository->selectAtributosRelacionados($atributosNivelamento);
-            $atributos = 'nivelamento_id,';
         }else{
-            $provaRepository->selectAtributosRelacionados('nivelamento');
+            $provaRepository->selectAtributosRelacionados('nivelamentos_provas');
         }
 
-        if($request->has('atributos_questao')){
-            $atributosQuestoes = 'questoes:id,'.$request->atributos_questoes;
+        if($request->has('atributos_provas_componentes')){
+            $atributosQuestoes = 'provas_componentes:id,'.$request->atributos_provas_componentes;
             $provaRepository->selectAtributosRelacionados($atributosQuestoes);
         }else{
-            $provaRepository->selectAtributosRelacionados('questoes');
+            $provaRepository->selectAtributosRelacionados('provas_componentes');
         }
 
         if($request->has('filtros')){
@@ -45,7 +43,7 @@ class ProvaController extends Controller
         }
 
         if($request->has('atributos')){
-            $atributos .= $request->atributos;
+            $atributos = $request->atributos;
             $provaRepository->selectAtributos($atributos);
         }
 
@@ -62,12 +60,13 @@ class ProvaController extends Controller
     {
         $request->validate($this->prova->rules());
         $prova = $this->prova->create([
-            'nivelamento_id' => $request->nivelamento_id,
             'nome' => $request->nome,
-            'qtd_questao' => $request->qtd_questao,
             'media_apr' => $request->media_apr,
+            'situacao' => $request->situacao,
             'mensagem_apr' => $request->mensagem_apr,
-            'mensagem_rep' => $request->mensagem_rep
+            'mensagem_rep' => $request->mensagem_rep,
+            'usuario_criador' => $request->usuario_criador,
+            'usuario_atualizacao' => $request->usuario_atualizacao
         ]);
 
         return response()->json($prova, 201);
@@ -81,7 +80,7 @@ class ProvaController extends Controller
      */
     public function show($id)
     {
-        $prova = $this->prova->with('nivelamento')->with('questoes')->find($id);
+        $prova = $this->prova->with('nivelamentos_provas')->with('provas_componentes')->find($id);
         if($prova === null){
             return response()->json(['erro' => 'Nao exisite esta prova'], 404);
         }
