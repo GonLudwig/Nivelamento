@@ -15,7 +15,7 @@ class Questao extends Model
         'componente_id',
         'situacao',
         'usuario_criador',
-        'usuario_atualização'
+        'usuario_atualizacao'
     ];
 
     public function rules(){
@@ -24,7 +24,7 @@ class Questao extends Model
             'componente_id' => 'required|exists:componentes,id',
             'situacao' => 'required',
             'usuario_criador' => 'required|max:255',
-            'usuario_atualização' => 'required|max:255'
+            'usuario_atualizacao' => 'required|max:255'
         ];
     }
 

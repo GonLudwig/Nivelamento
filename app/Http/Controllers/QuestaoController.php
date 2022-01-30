@@ -25,12 +25,12 @@ class QuestaoController extends Controller
         $questaoRepository = new QuestaoRepository($this->questao);
         $atributos = '';
 
-        if($request->has('atributos_prova')){
-            $atributosQuestao = 'prova:id,'.$request->atributos_prova;
+        if($request->has('atributos_componente')){
+            $atributosQuestao = 'componente:id,'.$request->atributos_componente;
             $questaoRepository->selectAtributosRelacionados($atributosQuestao);
-            $atributos = 'prova_id,';
+            $atributos = 'componente_id,';
         }else{
-            $questaoRepository->selectAtributosRelacionados('prova');
+            $questaoRepository->selectAtributosRelacionados('componente');
         }
 
         if($request->has('atributos_alternativas')){
@@ -62,9 +62,11 @@ class QuestaoController extends Controller
     {
         $request->validate($this->questao->rules());
         $questao = $this->questao->create([
-            'prova_id' => $request->prova_id,
             'enunciado' => $request->enunciado,
-            'resposta_id' => $request->resposta_id
+            'componente_id' => $request->componente_id,
+            'situacao' => $request->situacao,
+            'usuario_criador' => $request->usuario_criador,
+            'usuario_atualizacao' => $request->usuario_atualizacao
         ]);
 
         return response()->json($questao, 201);
@@ -78,7 +80,7 @@ class QuestaoController extends Controller
      */
     public function show($id)
     {
-        $questao = $this->questao->with('prova')->with('alternativas')->find($id);
+        $questao = $this->questao->with('componente')->with('alternativas')->find($id);
         if($questao === null){
             return response()->json(['erro' => 'Nao exisite esta questao'], 404);
         }

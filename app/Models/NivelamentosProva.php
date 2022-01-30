@@ -13,23 +13,23 @@ class NivelamentosProva extends Model
         'nivelamento_id',
         'prova_id',
         'usuario_criador',
-        'usuario_atualização'
+        'usuario_atualizacao'
     ];
 
-    public function roles(){
+    public function rules(){
         return [
             'nivelamento_id' => 'required|exists:nivelamentos,id',
             'prova_id' => 'required|exists:provas,id',
             'usuario_criador' => 'required',
-            'usuario_atualização' => 'required'
+            'usuario_atualizacao' => 'required'
         ];
     }
 
     public function nivelamentos(){
-        return $this->hasMany('App\Models\Nivelamento');
+        return $this->belongsTo('App\Models\Nivelamento', 'nivelamento_id', 'id');
     }
 
     public function provas(){
-        return $this->hasMany('App\Models\Prova');
+        return $this->belongsTo('App\Models\Prova', 'prova_id', 'id');
     }
 }

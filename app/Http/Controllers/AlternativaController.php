@@ -54,8 +54,11 @@ class AlternativaController extends Controller
     {
         $request->validate($this->alternativa->rules());
         $alternativa = $this->alternativa->create([
+            'nome' => $request->nome,
             'questao_id' => $request->questao_id,
-            'alternativa' => $request->alternativa
+            'alternativa_correto' => $request->alternativa_correto,
+            'usuario_criador' => $request->usuario_criador,
+            'usuario_atualizacao' => $request->usuario_atualizacao
         ]);
 
         return response()->json($alternativa, 201);
@@ -69,7 +72,7 @@ class AlternativaController extends Controller
      */
     public function show($id)
     {
-        $alternativa = $this->alternativa->with('prova')->with('alternativas')->find($id);
+        $alternativa = $this->alternativa->with('questao')->find($id);
         if($alternativa === null){
             return response()->json(['erro' => 'Nao exisite esta alternativa'], 404);
         }

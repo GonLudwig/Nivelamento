@@ -14,17 +14,17 @@ class Componente extends Model
         'nivel_id',
         'situacao',
         'usuario_criador',
-        'usuario_atualização'
+        'usuario_atualizacao'
     ];
 
-    public function roles(){
+    public function rules(){
         return [
             'nome' => 'required',
             'nivel_id' => 'required|exists:niveis_ensinos,id',
             'situacao' => 'required',
             'usuario_criador' => 'required|max:255',
-            'usuario_atualização' => 'required|max:255'
-        ];
+            'usuario_atualizacao' => 'required|max:255'
+        ];  
     }
 
     public function provas_componentes(){

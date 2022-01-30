@@ -28,6 +28,8 @@ Route::apiResource('componente', 'App\Http\Controllers\ComponenteController');
 
 Route::apiResource('questao', 'App\Http\Controllers\QuestaoController');
 
+Route::apiResource('alternativa', 'App\Http\Controllers\AlternativaController');
+
 Route::apiResource('nivelamentos_provas', 'App\Http\Controllers\NivelamentosProvaController');
 
 Route::apiResource('provas_componentes', 'App\Http\Controllers\ProvasComponenteController');

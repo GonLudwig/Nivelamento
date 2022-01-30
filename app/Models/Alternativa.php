@@ -14,7 +14,7 @@ class Alternativa extends Model
         'questao_id',
         'alternativa_correto',
         'usuario_criador',
-        'usuario_atualização'
+        'usuario_atualizacao'
     ];
     
     public function rules(){
@@ -23,7 +23,7 @@ class Alternativa extends Model
             'questao_id' => 'required|exists:questoes,id',
             'alternativa_correto' => 'required',
             'usuario_criador' => 'required|max:255',
-            'usuario_atualização' => 'required|max:255'
+            'usuario_atualizacao' => 'required|max:255'
         ];
     }
 
