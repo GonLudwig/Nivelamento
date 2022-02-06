@@ -14,24 +14,24 @@ class ProvasComponente extends Model
         'componente_id',
         'quantidade_questao',
         'usuario_criador',
-        'usuario_atualização'
+        'usuario_atualizacao'
     ];
 
-    public function roles(){
+    public function rules(){
         return [
             'prova_id' => 'required|exists:provas,id',
             'componente_id' => 'required|exists:componentes,id',
             'quantidade_questao' => 'required',
             'usuario_criador' => 'required|max:255',
-            'usuario_atualização' => 'required|max:255'
+            'usuario_atualizacao' => 'required|max:255'
         ];
     }
 
     public function provas(){
-        return $this->hasMany('App\Models\Prova');
+        return $this->belongsTo('App\Models\Prova', 'prova_id', 'id');
     }
 
     public function componentes(){
-        return $this->hasMany('App\Models\Componente');
+        return $this->belongsTo('App\Models\Componente', 'componente_id', 'id');
     }
 }

@@ -25,12 +25,12 @@ class NivelamentoController extends Controller
         $nivelamentoRepository = new NivelamentoRepository($this->nivelamento);
         $atributos = '';
 
-        // if($request->has('atributos_nivelamentos_provas')){
-        //     $atributosProva = 'nivelamentos_provas:id,nivelamento_id,'.$request->atributos_prova;
-        //     $nivelamentoRepository->selectAtributosRelacionados($atributosProva);
-        // }else{
-        //     $nivelamentoRepository->selectAtributosRelacionados('nivelamentos_provas');
-        // }
+        if($request->has('atributos_nivelamentos_provas')){
+            $atributosProva = 'nivelamentos_provas:id,nivelamento_id,'.$request->atributos_prova;
+            $nivelamentoRepository->selectAtributosRelacionados($atributosProva);
+        }else{
+            $nivelamentoRepository->selectAtributosRelacionados('nivelamentos_provas');
+        }
 
         if($request->has('filtros')){
             $nivelamentoRepository->filtros($request->filtros);

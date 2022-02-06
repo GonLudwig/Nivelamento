@@ -32,10 +32,20 @@ class Prova extends Model
     }
 
     public function nivelamentos_provas(){
-        return $this->hasMany('App\Models\NivelamentosProva');
+        return $this->belongsToMany(
+            'App\Models\Nivelamento',
+            'nivelamentos_provas',
+            'prova_id',
+            'nivelamento_id'
+        );
     }
 
     public function provas_componentes(){
-        return $this->hasMany('App\Models\ProvasComponente');
+        return $this->belongsToMany(
+            'App\Models\Componente',
+            'provas_componentes',
+            'prova_id',
+            'componente_id'
+        )->withPivot('quantidade_questao');
     }
 }

@@ -13,6 +13,7 @@ class NivelamentosProvaController extends Controller
     {
         $this->nivelamentosProva = $nivelamentosProva;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,20 +23,20 @@ class NivelamentosProvaController extends Controller
     public function index(StoreNivelamentosProvaRequest $request)
     {
         $nivelamentosProvaRepository = new NivelamentosProvaRepository($this->nivelamentosProva);
-        $atributos = '';
+        // $atributos = '';
 
         if($request->has('atributos_nivelamentos')){
-            $atributosQuestoes = 'nivelamentos:id,'.$request->atributos_nivelamentos;
-            $nivelamentosProvaRepository->selectAtributosRelacionados($atributosQuestoes);
-            $atributos = 'nivelamentos_id,';
+            $atributosNivelamentos = 'nivelamentos:id,'.$request->atributos_nivelamentos;
+            $nivelamentosProvaRepository->selectAtributosRelacionados($atributosNivelamentos);
+            // $atributos = 'nivelamentos_id,';
         }else{
             $nivelamentosProvaRepository->selectAtributosRelacionados('nivelamentos');
         }
 
         if($request->has('atributos_provas')){
-            $atributosQuestoes = 'provas:id,'.$request->atributos_provas;
-            $nivelamentosProvaRepository->selectAtributosRelacionados($atributosQuestoes);
-            $atributos = 'provas_id,';
+            $atributosProvas = 'provas:id,'.$request->atributos_provas;
+            $nivelamentosProvaRepository->selectAtributosRelacionados($atributosProvas);
+            // $atributos = 'provas_id,';
         }else{
             $nivelamentosProvaRepository->selectAtributosRelacionados('provas');
         }
@@ -45,7 +46,7 @@ class NivelamentosProvaController extends Controller
         }
 
         if($request->has('atributos')){
-            $atributos .= $request->atributos;
+            $atributos = $request->atributos;
             $nivelamentosProvaRepository->selectAtributos($atributos);
         }
 

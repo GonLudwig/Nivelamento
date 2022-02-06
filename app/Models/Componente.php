@@ -28,7 +28,12 @@ class Componente extends Model
     }
 
     public function provas_componentes(){
-        return $this->hasMany('App\Models\ProvasComponente');
+        return $this->belongsToMany(
+            'App\Models\Prova',
+            'provas_componentes',
+            'componente_id',
+            'prova_id'
+        )->withPivot('quantidade_questao');
     }
 
     public function nivel(){
