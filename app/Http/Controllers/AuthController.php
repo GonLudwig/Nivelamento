@@ -31,7 +31,8 @@ class AuthController extends Controller
 
         if ($token = auth('api')->attempt($credentials)) {
             // return $this->respondWithToken($token);
-            dd($token);
+
+            return response()->json(['token' => $token]);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
@@ -44,7 +45,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return 'meOk';
+        return response()->json(auth()->user());
         // return response()->json($this->guard()->user());
     }
 
@@ -57,7 +58,9 @@ class AuthController extends Controller
     {
         // $this->guard()->logout();
         // return response()->json(['message' => 'Successfully logged out']);
-        return 'logoutOk';
+
+        auth('api')->logout();
+        return response()->json(['msg' => 'Logout foi realizado com sucesso!']);
     }
 
     /**
@@ -67,7 +70,8 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return 'refreshOk';
+        $token = auth('api')->refresh();
+        return response()->json(['token' => $token])
         // return $this->respondWithToken($this->guard()->refresh());
     }
 
